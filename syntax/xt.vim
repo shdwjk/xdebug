@@ -20,6 +20,7 @@ syn match pls_memory        "-\d\+"
 syn match nll_memory    "+0"
 
 syn match level         "->"
+syn match srcfile       "\([a-zA-Z0-9_.]*\/\)*\([a-zA-Z0-9_.]*\)\ze:\d\+$"
 syn match lineno        ":\d\+$"
 
 syn match result          ">=>.\+"
@@ -60,6 +61,7 @@ if version >= 508 || !exists("did_diff_syntax_inits")
   HiLink main       Structure
   HiLink include    Structure
   
+  HiLink srcfile Comment
   HiLink lineno Delimiter
   HiLink methodcall Function
   HiLink staticcall Function
@@ -71,9 +73,10 @@ endif
 
 let b:current_syntax = "xt"
 
+:set nowrap
 ":set foldcolumn=10
 :set foldmethod=expr
-:set foldexpr=strlen(substitute(substitute(substitute(substitute(substitute(substitute(getline(v:lnum),'^TRACE\ START.*$','',''),'->','->',''),'\\s=>','->',\"g\"),'\\s>=>','\ \ ->',\"g\"),'^\\s.\\{32\\}\\(\\s\\+\\)\\?->.*$','\\1',''),'\\s\\s','\ ',\"g\"))
+:set foldexpr=strlen(substitute(substitute(substitute(substitute(substitute(substitute(getline(v:lnum),'^TRACE\ START.*$','',''),'->','->',''),'\\s=>','->',\"g\"),'\\s>=>','->',\"g\"),'^\\s.\\{32\\}\\(\\s\\+\\)\\?->.*$','\\1',''),'\\s\\s','\ ',\"g\"))
 :set foldlevel=9999
 
 " vim: ts=8 sw=2
